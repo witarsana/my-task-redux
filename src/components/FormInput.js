@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import Button from './Button';
+import { useDispatch } from 'react-redux';
+import { add } from '../store/actions/todos';
+
 import '../styles/FormInput.css'
 
-const FormInput = ({ add }) => {
+const FormInput = () => {
     const [text, setText] = useState("")
     const change = (e) => {
         setText(e.target.value);
     }
+    const dispatch = useDispatch();
+
     const submit = e => {
         e.preventDefault();
         if (text !== "") {
-            add(text);
+            dispatch(add(text))
             setText('')
         }
     }

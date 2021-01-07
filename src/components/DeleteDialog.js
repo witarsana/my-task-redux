@@ -1,16 +1,24 @@
 import React from 'react';
 import Button from './Button';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import '../styles/DeleteDialog.css';
-const DeleteDialog = (props) => {
-    const { del, close, deleteact } = props;
-    if (del) {
+import { closeDelete, del } from '../store/actions/todos';
+const DeleteDialog = () => {
+    const dispatch = useDispatch();
+    const isDelete = useSelector(state => state.todos.isDelete);
+    const deleteAct = () => {
+        dispatch(del());
+    }
+    const close = () => {
+        dispatch(closeDelete());
+    }
+    if (isDelete) {
         return (
             <div className="delete-container">
                 <div className="delete-box">
                     <h4>Are you sure delete data?</h4>
                     <div className="button-group">
-                        <Button action={deleteact} text="Delete" variant="success" />
+                        <Button action={deleteAct} text="Delete" variant="success" />
                         <Button action={close} text="Cancel" variant="warning" />
                     </div>
                 </div>
@@ -23,10 +31,5 @@ const DeleteDialog = (props) => {
 
 }
 
-DeleteDialog.propTypes = {
-    del: PropTypes.bool.isRequired,
-    close: PropTypes.func.isRequired,
-    deleteact: PropTypes.func.isRequired
-}
 
 export default DeleteDialog;

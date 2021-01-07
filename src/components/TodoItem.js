@@ -1,13 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
-const TodoItem = ({ todo, del, open }) => {
+import { useDispatch } from 'react-redux';
+import { showEdit, showDelete } from '../store/actions/todos';
 
+const TodoItem = ({ todo }) => {
+    const dispatch = useDispatch();
+    const open = (id) => {
+        dispatch(showEdit(id));
+    }
+    const del = (id) => {
+        dispatch(showDelete(id));
+    }
     return (
         <div style={todoItem}>
             <p>{todo.title}</p>
             <div>
-                <Button action={() => { open(todo.id, todo.title) }} text="edit" variant="success" />
+                <Button action={() => { open(todo.id) }} text="edit" variant="success" />
                 <Button action={() => del(todo.id)} text="delete" variant="warning" />
             </div>
         </div>
